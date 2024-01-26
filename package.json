@@ -1,5 +1,5 @@
 {
-  "name": "react-native-wheely",
+  "name": "react-native-wheely-gh",
   "version": "0.6.0",
   "description": "An all JavaScript, highly customizable wheel picker for react-native.",
   "main": "lib/index.js",
@@ -35,6 +35,7 @@
     "prettier": "^2.6.0",
     "react": "^17.0.2",
     "react-native": "^0.67.3",
+    "react-native-gesture-handler": "^2.14.1",
     "typescript": "^4.6.2"
   }
 }

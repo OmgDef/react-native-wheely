@@ -9,10 +9,15 @@ import {
   View,
   ViewProps,
   FlatListProps,
-  FlatList,
+  TextProps,
 } from 'react-native';
 import styles from './WheelPicker.styles';
 import WheelPickerItem from './WheelPickerItem';
+import { FlatList } from 'react-native-gesture-handler';
+
+const AnimatedFlatList = Animated.createAnimatedComponent(
+  FlatList,
+) as unknown as FlatList;
 
 interface Props {
   selectedIndex: number;
@@ -24,6 +29,7 @@ interface Props {
   itemHeight?: number;
   containerStyle?: ViewStyle;
   containerProps?: Omit<ViewProps, 'style'>;
+  itemTextProps?: Omit<TextProps, 'style'>;
   scaleFunction?: (x: number) => number;
   rotationFunction?: (x: number) => number;
   opacityFunction?: (x: number) => number;
@@ -48,6 +54,7 @@ const WheelPicker: React.FC<Props> = ({
   decelerationRate = 'fast',
   containerProps = {},
   flatListProps = {},
+  itemTextProps,
 }) => {
   const flatListRef = useRef<FlatList>(null);
   const [scrollY] = useState(new Animated.Value(0));
@@ -128,7 +135,7 @@ const WheelPicker: React.FC<Props> = ({
           },
         ]}
       />
-      <Animated.FlatList<string | null>
+      <AnimatedFlatList<string | null>
         {...flatListProps}
         ref={flatListRef}
         style={styles.scrollView}
@@ -154,6 +161,7 @@ const WheelPicker: React.FC<Props> = ({
             index={index}
             option={option}
             style={itemStyle}
+            textProps={itemTextProps}
             textStyle={itemTextStyle}
             height={itemHeight}
             currentScrollIndex={currentScrollIndex}

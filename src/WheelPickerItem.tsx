@@ -1,10 +1,18 @@
 import React from 'react';
-import { StyleProp, TextStyle, Animated, Text, ViewStyle } from 'react-native';
+import {
+  StyleProp,
+  TextStyle,
+  Animated,
+  Text,
+  ViewStyle,
+  TextProps,
+} from 'react-native';
 import styles from './WheelPicker.styles';
 
 interface ItemProps {
   textStyle: StyleProp<TextStyle>;
   style: StyleProp<ViewStyle>;
+  textProps?: Omit<TextProps, 'style'>;
   option: string | null;
   height: number;
   index: number;
@@ -25,7 +33,8 @@ const WheelPickerItem: React.FC<ItemProps> = ({
   currentScrollIndex,
   opacityFunction,
   rotationFunction,
-  scaleFunction
+  scaleFunction,
+  textProps,
 }) => {
   const relativeScrollIndex = Animated.subtract(index, currentScrollIndex);
 
@@ -118,10 +127,16 @@ const WheelPickerItem: React.FC<ItemProps> = ({
       style={[
         styles.option,
         style,
-        {  height, opacity, transform: [{ translateY }, { rotateX }, { scale }]},
+        {
+          height,
+          opacity,
+          transform: [{ translateY }, { rotateX }, { scale }],
+        },
       ]}
     >
-      <Text style={textStyle}>{option}</Text>
+      <Text {...textProps} style={textStyle}>
+        {option}
+      </Text>
     </Animated.View>
   );
 };
@@ -130,7 +145,7 @@ export default React.memo(
   WheelPickerItem,
   /**
    * We enforce that this component will not rerender after the initial render.
-   * Therefore props that change on every render like style objects or functions
+   * Therefore, props that change on every render like style objects or functions
    * do not need to be wrapped into useMemo and useCallback.
    */
   () => true,
